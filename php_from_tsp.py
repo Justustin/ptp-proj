@@ -25,10 +25,36 @@ def php_solver_from_tsp(G, H):
         - The tour can only traverse existing edges in the graph.
         - The tour must visit every node in H.
     """
-    
-    # reduction
+    # Step 1: Compute all-pairs shortest paths in G
+    all_shortest_paths = dict(nx.all_pairs_dijkstra(G))
+    # all_shortest_paths[u] = (distances_from_u, paths_from_u)
+
+    # Step 2: Construct the reduced complete graph G'
+    # V' = H ∪ {0}
+    nodes_prime = [0] + [h for h in H if h != 0]
+    nodes_prime = list(set(nodes_prime))  # Ensure unique nodes
+
+    reduced_graph = nx.DiGraph()
+    reduced_graph.add_nodes_from(nodes_prime)
+
+    # Add edges with weights = shortest path distances
+    for u in nodes_prime:
+        for v in nodes_prime:
+            if u != v:
+                dist = all_shortest_paths[u][0][v]
+                reduced_graph.add_edge(u, v, weight=dist)
+
+    # Step 3: Solve M-TSP on the reduced graph
     tsp_tour = mtsp_dp(reduced_graph)
-    # reduction
+
+    # Step 4: Reconstruct the tour in original graph by substituting edges with shortest paths
+    tour = [tsp_tour[0]]
+    for i in range(len(tsp_tour) - 1):
+        u, v = tsp_tour[i], tsp_tour[i + 1]
+        # Get the shortest path from u to v in original graph
+        path = all_shortest_paths[u][1][v]
+        # Add all nodes in path except the first one (already in tour)
+        tour.extend(path[1:])
 
     return tour
 
