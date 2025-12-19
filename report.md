@@ -1,7 +1,10 @@
 # CSC4120 Project Report - Party Together Problem
 
-## Group Members
-[Your names here]
+## Group 45
+
+- Cedric (122040005)
+- Edward (122040010)
+- Justin (122040026)
 
 ---
 
