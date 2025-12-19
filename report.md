@@ -203,7 +203,7 @@ For each friend at home h:
 
 On test inputs, our solver achieves:
 
-- Valid solutions on all 15 test cases
+- Valid solutions on all 14 test cases
 - Optimal solution on the PDF example (cost = 10/3)
 - Competitive costs on hard inputs
 
